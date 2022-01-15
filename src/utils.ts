@@ -19,7 +19,7 @@ export function handleTransferToken(
       nft.save();
     }
 
-    const fromUserEntityId = from.toHex();
+    const fromUserEntityId = from.toString();
     let fromUser = User.load(fromUserEntityId);
     if (fromUser == null) {
       fromUser = new User(fromUserEntityId);
@@ -27,15 +27,15 @@ export function handleTransferToken(
       fromUser.save();
     }
 
-    const toUserEntityId = to.toHex();
+    const toUserEntityId = to.toString();
     let toUser = User.load(toUserEntityId);
     if (toUser == null) {
       toUser = new User(toUserEntityId);
-      toUser.address = from.toHexString();
+      toUser.address = to.toHexString();
       toUser.save();
     }
 
-    if (fromUser.address !== ZERO_ADDRESS.toString()) {
+    if (fromUser.address != ZERO_ADDRESS.toHexString()) {
       updateOwnership(nft, fromUser, value, true);
     }
     updateOwnership(nft, toUser, value, false)
