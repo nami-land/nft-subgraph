@@ -1,6 +1,20 @@
-type ExampleEntity @entity {
+type NFT @entity {
   id: ID!
-  count: BigInt!
-  account: Bytes! # address
-  operator: Bytes! # address
+  nftId: BigInt!
+  metadataUrl: String!
+  createTime: BigInt!
+  owner: [Ownership!] @derivedFrom(field: "nft")
+}
+
+type User @entity {
+  id: ID!
+  address: String!
+  nfts: [Ownership!] @derivedFrom(field: "user")
+}
+
+type Ownership @entity {
+  id: ID!
+  user: User!
+  nft: NFT!
+  quantity: BigInt!
 }
