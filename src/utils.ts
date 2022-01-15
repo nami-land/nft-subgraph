@@ -35,22 +35,30 @@ export function handleTransferToken(
       toUser.save();
     }
 
-    updateOwnership(nft, fromUser, value);
-    updateOwnership(nftId, to, value)
+    if (fromUser.address !== ZERO_ADDRESS.toString()) {
+      updateOwnership(nft, fromUser, value, true);
+    }
+    updateOwnership(nft, toUser, value, false)
   }
 
-  export function updateOwnership(nft: NFT, user: User, quantity: BigInt): void {
+  export function updateOwnership(nft: NFT, user: User, quantity: BigInt, isFrom: bool): void {
     const ownershipId = nft.id + '_' + user.id
     let ownership = Ownership.load(ownershipId)
 
     if (ownership == null) {
       ownership = new Ownership(ownershipId)
-      ownership.nft = nft
-      ownership.user = user;
+      ownership.nft = nft.id
+      ownership.user = user.id;
       ownership.quantity = BIGINT_ZERO;
     }
 
-    let newBalance = ownership.quantity.plus(quantity)
+    let newBalance = BIGINT_ZERO;
+    if (isFrom) {
+      newBalance = ownership.quantity.minus(quantity)
+    } else {
+      newBalance = ownership.quantity.plus(quantity);
+    }
+
     if (newBalance.lt(BIGINT_ZERO)) {
       throw new Error("Negative token quantity")
     }

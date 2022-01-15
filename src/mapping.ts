@@ -6,7 +6,8 @@ import {
   TransferSingle,
   URI
 } from "../generated/NecoNFT/NecoNFT"
-import { NecoNFT, User, UserNecoNFT } from "../generated/schema"
+import { handleTransferToken } from "./utils"
+import { NecoNFT } from '../generated/NecoNFT/NecoNFT';
 
 export function handleApprovalForAll(event: ApprovalForAll): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -63,10 +64,34 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
-export function handleTransferBatch(event: TransferBatch): void {}
+export function handleTransferBatch(event: TransferBatch): void {
+  if (event.params.ids.length != event.params.values.length) {
+    throw new Error("Inconsistent arrays length in TransferBatch")
+  }
+
+  for (let i = 0; i < event.params.ids.length; i++) {
+    let ids = event.params.ids;
+    let values = event.params.values;
+    handleTransferToken(
+        event.address,
+        event.params.from,
+        event.params.to,
+        ids[i],
+        values[i],
+        event.block.timestamp
+    );
+  }
+}
 
 export function handleTransferSingle(event: TransferSingle): void {
-
+  handleTransferToken(
+    event.address,
+    event.params.from,
+    event.params.to,
+    event.params.id,
+    event.params.value,
+    event.block.timestamp
+  )
 }
 
 export function handleURI(event: URI): void {}
