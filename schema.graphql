@@ -1,6 +1,7 @@
 type NFT @entity {
   id: ID!
   nftId: BigInt!
+  nftType: String!
   metadataUrl: String!
   createTime: BigInt!
   owner: [Ownership!] @derivedFrom(field: "nft")

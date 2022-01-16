@@ -14,6 +14,7 @@ export function handleTransferToken(
       nft = new NFT(entityId);
       const contract = NecoNFT.bind(contractAddress)
       nft.nftId = id;
+      nft.nftType = contract.getNFTType(id).toString();
       nft.metadataUrl = contract.uri(id);
       nft.createTime = timestamp;
       nft.save();

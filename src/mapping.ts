@@ -1,7 +1,6 @@
 import { BigInt } from "@graphprotocol/graph-ts"
 import {
   ApprovalForAll,
-  OwnershipTransferred,
   TransferBatch,
   TransferSingle,
   URI
@@ -61,8 +60,6 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
   // - contract.transferWhitelist(...)
   // - contract.uri(...)
 }
-
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
 export function handleTransferBatch(event: TransferBatch): void {
   if (event.params.ids.length != event.params.values.length) {
