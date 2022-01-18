@@ -6,7 +6,7 @@ dataSources:
     name: NecoNFT
     network: chapel
     source:
-      address: "0xc181BcC9d982fEf7A355E2b87f9A9b4C6b831e40"
+      address: "0xcF12bad8E60BA0Cb5D32CE0d6E65722bE679006B"
       abi: NecoNFT
       startBlock: 15904870
     mapping:
