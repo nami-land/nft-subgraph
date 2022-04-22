@@ -1,4 +1,4 @@
-import { NFT, User, Ownership } from '../generated/schema';
+import { Nft, User, Ownership } from '../generated/schema';
 import { Address, BigInt } from '@graphprotocol/graph-ts';
 import { NecoNFT } from '../generated/NecoNFT/NecoNFT';
 
@@ -9,13 +9,13 @@ export function handleTransferToken(
     contractAddress: Address, from: Address, to: Address, id: BigInt, value: BigInt, timestamp: BigInt
   ): void {
     const entityId = id.toHex()
-    let nft = NFT.load(entityId);
+    let nft = Nft.load(entityId);
     if (nft == null) {
-      nft = new NFT(entityId);
+      nft = new Nft(entityId);
       const contract = NecoNFT.bind(contractAddress)
       nft.nftId = id;
-      nft.gameType = contract.getGameType(id).toI32();
-      nft.nftType = contract.getNFTType(id).toI32();
+      nft.nftType1 = contract.getNFTType1(id).toI32();
+      nft.nftType2 = contract.getNFTType2(id).toI32();
       nft.metadataUrl = contract.uri(id);
       nft.createTime = timestamp;
       nft.save();
@@ -43,7 +43,7 @@ export function handleTransferToken(
     updateOwnership(nft, toUser, value, false)
   }
 
-  export function updateOwnership(nft: NFT, user: User, quantity: BigInt, isFrom: bool): void {
+  export function updateOwnership(nft: Nft, user: User, quantity: BigInt, isFrom: bool): void {
     const ownershipId = nft.id + '_' + user.id
     let ownership = Ownership.load(ownershipId)
 
