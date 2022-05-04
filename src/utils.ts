@@ -10,7 +10,7 @@ export function handleTransferToken(
   ): void {
     const entityId = id.toHex()
     let nft = Nft.load(entityId);
-    if (nft == null) {
+    if (nft === null) {
       nft = new Nft(entityId);
       const contract = NecoNFT.bind(contractAddress)
       nft.nftId = id.toString();
@@ -23,7 +23,7 @@ export function handleTransferToken(
 
     const fromUserEntityId = from.toHex();
     let fromUser = User.load(fromUserEntityId);
-    if (fromUser == null) {
+    if (fromUser === null) {
       fromUser = new User(fromUserEntityId);
       fromUser.address = from.toHexString();
       fromUser.save();

@@ -14,21 +14,14 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - ApprovalForAll
-        - OwnershipTransferred
         - TransferBatch
         - TransferSingle
-        - URI
       abis:
         - name: NecoNFT
           file: ./abis/NecoNFT.json
       eventHandlers:
-        - event: ApprovalForAll(indexed address,indexed address,bool)
-          handler: handleApprovalForAll
         - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
           handler: handleTransferBatch
         - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTransferSingle
-        - event: URI(string,indexed uint256)
-          handler: handleURI
       file: ./src/mapping.ts

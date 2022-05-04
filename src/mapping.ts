@@ -62,10 +62,6 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 }
 
 export function handleTransferBatch(event: TransferBatch): void {
-  if (event.params.ids.length != event.params.values.length) {
-    throw new Error("Inconsistent arrays length in TransferBatch")
-  }
-
   for (let i = 0; i < event.params.ids.length; i++) {
     let ids = event.params.ids;
     let values = event.params.values;
@@ -90,5 +86,3 @@ export function handleTransferSingle(event: TransferSingle): void {
     event.block.timestamp
   )
 }
-
-export function handleURI(event: URI): void {}
