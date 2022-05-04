@@ -31,7 +31,7 @@ export function handleTransferToken(
 
     const toUserEntityId = to.toHex();
     let toUser = User.load(toUserEntityId);
-    if (toUser == null) {
+    if (toUser === null) {
       toUser = new User(toUserEntityId);
       toUser.address = to.toHexString();
       toUser.save();
