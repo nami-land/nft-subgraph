@@ -1,6 +1,6 @@
 type Nft @entity {
   id: ID!
-  nftId: BigInt!
+  nftId: String!
   nftType1: Int!
   nftType2: Int!
   metadataUrl: String!

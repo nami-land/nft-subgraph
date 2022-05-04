@@ -13,7 +13,7 @@ export function handleTransferToken(
     if (nft == null) {
       nft = new Nft(entityId);
       const contract = NecoNFT.bind(contractAddress)
-      nft.nftId = id;
+      nft.nftId = id.toString();
       nft.nftType1 = contract.getNFTType1(id).toI32();
       nft.nftType2 = contract.getNFTType2(id).toI32();
       nft.metadataUrl = contract.uri(id);
@@ -21,7 +21,7 @@ export function handleTransferToken(
       nft.save();
     }
 
-    const fromUserEntityId = from.toString();
+    const fromUserEntityId = from.toHex();
     let fromUser = User.load(fromUserEntityId);
     if (fromUser == null) {
       fromUser = new User(fromUserEntityId);
@@ -29,7 +29,7 @@ export function handleTransferToken(
       fromUser.save();
     }
 
-    const toUserEntityId = to.toString();
+    const toUserEntityId = to.toHex();
     let toUser = User.load(toUserEntityId);
     if (toUser == null) {
       toUser = new User(toUserEntityId);
@@ -37,17 +37,22 @@ export function handleTransferToken(
       toUser.save();
     }
 
-    if (fromUser.address != ZERO_ADDRESS.toHexString()) {
-      updateOwnership(nft, fromUser, value, true);
-    }
+    updateOwnership(nft, fromUser, value, true);
     updateOwnership(nft, toUser, value, false)
   }
 
+  /**
+   * Update Ownership
+   * @param nft
+   * @param user
+   * @param quantity
+   * @param isFrom
+   */
   export function updateOwnership(nft: Nft, user: User, quantity: BigInt, isFrom: bool): void {
-    const ownershipId = nft.id + '_' + user.id
+    const ownershipId = nft.id.toString() + "_" + user.id.toString()
     let ownership = Ownership.load(ownershipId)
 
-    if (ownership == null) {
+    if (ownership === null) {
       ownership = new Ownership(ownershipId)
       ownership.nft = nft.id
       ownership.user = user.id;
@@ -61,9 +66,9 @@ export function handleTransferToken(
       newBalance = ownership.quantity.plus(quantity);
     }
 
-    if (newBalance.lt(BIGINT_ZERO)) {
-      throw new Error("Negative token quantity")
-    }
+    // if (newBalance.lt(BIGINT_ZERO)) {
+    //   throw new Error("Negative token quantity")
+    // }
 
     ownership.quantity = newBalance
     ownership.save()
