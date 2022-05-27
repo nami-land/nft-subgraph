@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: NecoNFT
-    network: chapel
+    network: bsc
     source:
-      address: "0xEB1C424A31490A9B141126838a3c625647f22BDc"
+      address: "0xEA5534Bac1291676595223579517D35Ad9C382eE"
       abi: NecoNFT
-      startBlock: 18664993
+      startBlock: 17599856
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
